@@ -1,0 +1,3 @@
+pygoodwe~=0.1.7
+Scrapy~=2.11.2
+itemadapter~=0.9.0
