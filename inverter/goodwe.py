@@ -20,19 +20,19 @@ class Inverter():
         return inverter
 
     def get_pv(self):
-        return self.inverter.getPVFlow()
+        return int(self.inverter.getPVFlow())
 
     def get_batteries_soc(self):
-        return self.inverter.get_batteries_soc()
+        return int(self.inverter.get_batteries_soc())
 
     def get_batteries_flow(self):
-        return self.inverter.getPVFlow() - self.inverter.getPmeter() - self.inverter.getLoadFlow()
+        return int(self.inverter.getPVFlow() - self.inverter.getPmeter() - self.inverter.getLoadFlow())
 
     def get_home_consumption(self):
-        return self.inverter.getLoadFlow()
+        return int(self.inverter.getLoadFlow())
 
     def get_power_flow(self):
-        return self.inverter.getPmeter()
+        return int(self.inverter.getPmeter())
 
 
         # battery = inverter.getPVFlow() - inverter.getPmeter() - inverter.getLoadFlow()
