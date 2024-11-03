@@ -3,7 +3,20 @@ from datetime import datetime
 import pandas as pd
 from currency_converter import CurrencyConverter
 
+import logging
 import time
+import sys
+import os
+
+picdir = os.path.join(os.path.dirname(os.path.dirname(os.path.realpath(__file__))), 'pic')
+libdir = os.path.join(os.path.dirname(os.path.dirname(os.path.realpath(__file__))), 'lib')
+if os.path.exists(libdir):
+    sys.path.append(libdir)
+
+logging.basicConfig(level=logging.DEBUG)
+
+from waveshare_epd import epd2in13_V2
+from PIL import Image,ImageDraw,ImageFont
 
 class OTE:
     def __init__(self):
@@ -38,20 +51,45 @@ class Inverter:
                f"Grid:\t{self.grid} W\n" \
                f"Dum:\t{self.consumption} W\n"
 
+def update_displayed_data(inverter, ote):
+    logging.info("epd2in13_V2 Demo")
+
+    epd = epd2in13_V2.EPD()
+    epd.init(epd.FULL_UPDATE)
+    epd.Clear(0xFF)
+
+    font24 = ImageFont.truetype(os.path.join(picdir, 'Font.ttc'), 24)
+
+    image = Image.new('1', (epd.height, epd.width), 255)  # 255: clear the frame
+    draw = ImageDraw.Draw(image)
+
+    draw.text((20, 0), f'PV\t{inverter.solar} W', font=font24, fill=0)
+    draw.text((20, 24), f'Bat\t{inverter.bat_W} W  {inverter.bat_per} %', font=font24, fill=0)
+    draw.text((20, 48), f'Grid\t{inverter.grid} W', font=font24, fill=0)
+    draw.text((20, 72), f'Dum\t{inverter.consumption} W', font=font24, fill=0)
+    draw.text((20, 96), f'OTE\t{ote.get_actual_price_czk():.0f} Kc/MW  {ote.get_actual_price_eur():.2f} EUR/MW', font=font24, fill=0)
+    epd.display(epd.getbuffer(image))
+
+    logging.info("Goto Sleep...")
+    epd.sleep()
 
 def main():
     try:
         ote = OTE()
         inverter = Inverter()
 
-        while(True):
+        while (True):
             inverter.refresh()
-            print(str(inverter) + str(ote), flush=True)
-            time.sleep(10)
+            update_displayed_data(inverter, ote)
+            time.sleep(10*60)
+
+    except IOError as e:
+        logging.info(e)
 
     except KeyboardInterrupt:
+        logging.info("ctrl + c:")
+        epd2in13_V2.epdconfig.module_exit(cleanup=True)
         exit()
-
 
 if __name__ == "__main__":
     main()
