@@ -2,8 +2,13 @@ import logging
 import time
 
 from display.display import Display
-from inverter.inverter import Inverter
+from inverter.goodwe import GoodweInverter as Inverter
 from ote.ote import OTE
+
+SLEEP_MIN = 10
+SLEEP_SEC = SLEEP_MIN * 60
+
+logging.StreamHandler().setLevel(logging.INFO)
 
 
 def main():
@@ -13,8 +18,9 @@ def main():
 
         while (True):
             inverter.refresh()
+            logging.info(f'{inverter}\n{ote}')
             Display.update(inverter, ote)
-            time.sleep(10*60)
+            time.sleep(SLEEP_SEC)
 
     except IOError as e:
         logging.info(e)
