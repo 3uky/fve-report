@@ -3,7 +3,7 @@ import time
 
 from display.display import Display
 from inverter.inverter import Inverter
-from scraperOTE.ote import OTE
+from ote.ote import OTE
 
 
 def main():
