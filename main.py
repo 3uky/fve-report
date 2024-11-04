@@ -1,5 +1,7 @@
-import logging
 import time
+import logging
+
+logging.basicConfig(level=logging.INFO)
 
 from display.display import Display
 from inverter.goodwe import GoodweInverter as Inverter
@@ -7,8 +9,6 @@ from ote.ote import OTE
 
 SLEEP_MIN = 10
 SLEEP_SEC = SLEEP_MIN * 60
-
-logging.StreamHandler().setLevel(logging.INFO)
 
 
 def main():
