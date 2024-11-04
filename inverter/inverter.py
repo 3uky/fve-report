@@ -1,4 +1,4 @@
-from goodwe import GoodweInverter
+from inverter.goodwe import GoodweInverter
 
 
 class Inverter:

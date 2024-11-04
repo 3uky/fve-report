@@ -10,11 +10,10 @@ def main():
     try:
         ote = OTE()
         inverter = Inverter()
-        display = Display()
 
         while (True):
             inverter.refresh()
-            display.update(inverter, ote)
+            Display.update(inverter, ote)
             time.sleep(10*60)
 
     except IOError as e:

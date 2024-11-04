@@ -11,9 +11,6 @@ logging.basicConfig(level=logging.DEBUG)
 
 
 class Display:
-    def __init__(self):
-        pass
-
     @staticmethod
     def update(inverter, ote):
         logging.info("epd2in13_V2 display init")
@@ -34,7 +31,3 @@ class Display:
 
         logging.info("Goto Sleep...")
         epd.sleep()
-
-    def __del__(self):
-        logging.info("display module exit")
-        epd2in13_V2.epdconfig.module_exit(cleanup=True)
