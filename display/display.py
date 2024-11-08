@@ -1,6 +1,7 @@
 import os
 import sys
 import logging
+import time
 
 from display.lib.waveshare_epd import epd2in13_V2
 from PIL import Image,ImageDraw,ImageFont
@@ -27,6 +28,8 @@ class Display:
         draw.text((20, 48), f'Grid: {inverter.grid} W', font=font24, fill=0)
         draw.text((20, 72), f'Dum: {inverter.consumption} W', font=font24, fill=0)
         draw.text((20, 96), f'OTE: {ote.get_actual_price_czk():.0f} Kc/MW  {ote.get_actual_price_eur():.2f} EUR/MW', font=font24, fill=0)
+        draw.text((180, 0), time.strftime("%H:%M:%S"), font=font24, fill=0)
+    
         epd.display(epd.getbuffer(image))
 
         logging.info("Goto Sleep...")
