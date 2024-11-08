@@ -12,7 +12,8 @@ class OTE:
         # return f"OTE:\t{self.get_actual_price_czk():.0f} Kc/MW"
 
     def get_actual_price_eur(self):
-        return self.ote.loc[datetime.now().hour, 'price']
+        hour_index = datetime.now().hour + 1
+        return self.ote.loc[hour_index, 'price']
 
     def get_actual_price_czk(self):
         return CurrencyConverter().convert(self.get_actual_price_eur(), 'EUR', 'CZK')
