@@ -163,6 +163,7 @@ cython_debug/
 # Project
 config.py
 data/output.csv
+log.txt
 
 # Linux
 *.swp
