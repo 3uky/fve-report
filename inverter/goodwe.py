@@ -4,10 +4,11 @@ from pygoodwe import SingleInverter
 
 class GoodweInverter():
     def __init__(self):
+        self.inverter = self.get_single_inverter()
         self.refresh()
 
     def refresh(self):
-        self.inverter = self.get_single_inverter()
+        self.inverter.getCurrentReadings()
         self.solar = self.get_pv()
         self.bat_W = self.get_batteries_flow()
         self.bat_per = self.get_batteries_soc()
